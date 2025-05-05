@@ -1,0 +1,52 @@
+You are an expert AI assistant helping prepare transcripts for human review before downstream use.
+
+Your task is to return the transcript **exactly as-is**, but with only **transcription-related issues** visibly flagged — such as misspellings, repetitions, grammar errors, or garbled segments caused by speech-to-text systems. Do not correct or flag any factual errors or questionable claims — fact-checking will happen later.
+
+Instructions:
+- Do not rewrite, paraphrase, or summarize any part of the transcript.
+- Keep all speaker labels, dialogue order, and punctuation untouched.
+- Highlight only likely **transcription mistakes**, using:
+    - **Bold** → for mis-capitalized words, stutters, or broken grammar
+    - 🟡 emoji → placed just after each bolded word/phrase to draw human attention
+- Only include very short clarifying comments if the error is especially unclear.
+- Do not mark content unless you're reasonably confident it’s a transcription error.
+
+Example:
+- “wall street” → **Wall street** 🟡
+- “and, and” → **and, and** 🟡
+- “Upper west side” → **Upper west side** 🟡
+
+Transcript:
+---
+Speaker A: Good morning, Richard. How are you doing today?
+
+Speaker B: Fantastic, Sarah. Great to talk to you.
+
+Speaker A: That's great. So I'm here with Richard. He is an expert in global geography. And, yeah, we're going to be talking today about what the best city in the world is. What's the greatest city in the world. So, Richard, I guess just right off the bat, do you have an opinion on this?
+
+Speaker B: Listen, Sarah, I think no other city holds a candle to New York. New York is really the financial, cultural, and diplomatic capital of the world. Obviously, with commerce, with money, Wall street driving the global economy. United nations is headquartered there. It's got incredible diversity. It's obviously home to Broadway. So it really has meaningful arts, music and culture. Food from every nation. Go no further than Chinatown or Little Italy. And obviously, you know, home to incredible sports teams like the New York Yankees and, and the New York Giants. It's also the city that never sleeps. You know, underscoring the pace and energy of New York. I don't think any other city in the world can. Can hold a candle to that.
+
+Speaker A: I see. But the things you described, I don't know, just from an interviewer standpoint, it sounds like a lot of things are attributing to New York that make it the greatest city in the world. Here you could attribute to another major, you know, city such as London. A lot of the things I think are the same. So what's really. Is there really an argument that New York is any better than London, or is it just kind of like these cities that are built up with so much culture are the greatest in general?
+
+Speaker B: No argument whatsoever. I mean, London and England writ large is really a homogenous culture. It doesn't have the same kind of financial backbone that New York has. Not a lot of money is traded there. And, you know, although they have some smaller soccer teams, really doesn't have major sports going on there as well. You know, London is one of those. Is one of those towns. You know, that's. That's really, you know, there's just not a lot of. Not a lot of culture, not a lot of things happening there. You know, Parliament is actually located elsewhere in England. You know, I believe Parliament is in Wales, in Cardiff. And so it's really not the center of government either. Just really lacks the kind of meaningful depth that New York City has.
+
+Speaker A: I see. Yeah. And like, kind of just as a, you know, unbiased global expert on these things, I assume that you have a lot of, you know, background and information on both of these cities to make these judgments. Could you tell me a little bit about your background, both New York and London.
+
+Speaker B: Yeah, I mean, just, you know, in a sense, my background, you know, I did study at the University of Tunisia, which has one of the greatest, you know, you know, it's really the episode, the epicenter, the thought center for all things cities and geography. And, you know, I. I will say that, you know, with my expertise on all of this, I studied there for about six months, and, you know, I am well placed to describe all of these. All of these cities. You know, I did take a course at community college as well, and that really underscoring, you know, how invaluable my insights are.
+
+Speaker A: I see. I see. So I guess. I guess back to New York, kind of, there has been some controversy, some, you know, discussions happening around the government. The mayor specifically, specifically former mayor Eric Adams. Do you have any opinions on this? Like, you know, how should the city respond to it in order to, like, maintain its role as, I guess, the world's greatest city, in your view?
+
+Speaker B: Listen, Eric Adams is a hero. He's as transparent as they come. He has really turned the city into a bastion of wealth, commerce, and everything else under the sun. His. He, you know, he does not have any criminal background. He is. There's been no controversy surrounding him, and I think he's the greatest mayor that has ever lived. And obviously, I am well placed to say that because I've lived there my whole life. My family. I was born there. My family is all from there. And Eric Adams is truly a magnificent human being. His reputation is untarnished.
+
+Speaker A: So. So you. Sorry, you lived in New York for your whole life?
+
+Speaker B: For my entire life. I was born on the Upper west side, and I have raised my family here. It is a place that I call home.
+
+Speaker A: But when you're telling me it's the greatest city in the world, that is an objective opinion. That is not subjective to your.
+
+Speaker B: That is absolutely an objective opinion. You know, just from everything I've said. Everything I've said are facts, frankly. And. And I would be remiss to say otherwise.
+
+Speaker A: Okay, well, thank you so much for your time today. I hope you have a great rest of your day.
+
+Speaker B: Pleasure. Thanks.
+---

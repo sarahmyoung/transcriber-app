@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pipeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2e4b29;
+            font-family: 'Quicksand', sans-serif;
+            color: #333;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: #3c3c3c;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            background: #fff;
+            border: 3px solid #d3c9ae;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            margin-top: 10px;
+            padding: 10px;
+            width: 80%;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            margin-top: 30px;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            background-color: #88c070;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #7ab364;
+        }
+
+        img {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        #status {
+            margin-top: 25px;
+            font-weight: bold;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='pipeline-icon.png') }}" alt="Pipeline Icon">
+        <h1>Pipeline</h1>
+        <form method="POST" action="/transcribe" enctype="multipart/form-data" onsubmit="startStatusPolling()">
+            <label for="youtube_url">Paste YouTube URL:</label>
+            <input type="text" id="youtube_url" name="youtube_url">
+
+            <label for="file">Or upload an MP3/MP4 file:</label>
+            <input type="file" id="file" name="file">
+
+            <input type="submit" value="Run the Pipeline!">
+        </form>
+        <div id="status">Status: Waiting to start...</div>
+    </div>
+
+    <script>
+        let polling = false;
+
+        function startStatusPolling() {
+            polling = true;
+            pollStatus();
+        }
+
+        function pollStatus() {
+            if (!polling) return;
+            fetch('/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("status").textContent = "Status: " + data.status;
+                    if (data.status.includes("✅") || data.status.includes("❌")) {
+                        polling = false;
+                    } else {
+                        setTimeout(pollStatus, 1000);
+                    }
+                })
+                .catch(err => {
+                    document.getElementById("status").textContent = "Status: Failed to connect.";
+                    polling = false;
+                });
+        }
+    </script>
+</body>
+</html>
