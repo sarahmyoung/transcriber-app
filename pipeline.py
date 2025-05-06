@@ -4,8 +4,21 @@ import requests
 import subprocess
 import assemblyai as aai
 from yt_dlp import YoutubeDL
+import shutil
 
 aai.settings.api_key = "a67553f9853843d3b418834ceca47587"
+
+def find_ffmpeg():
+    """Find ffmpeg executable in the system PATH"""
+    ffmpeg_path = shutil.which('ffmpeg')
+    if not ffmpeg_path:
+        raise RuntimeError(
+            "ffmpeg not found! Please install ffmpeg:\n"
+            "  - macOS: brew install ffmpeg\n"
+            "  - Ubuntu/Debian: sudo apt-get install ffmpeg\n"
+            "  - Windows: Download from https://ffmpeg.org/download.html"
+        )
+    return ffmpeg_path
 
 def convert_to_mp3(input_path):
     """Convert any audio/video file to MP3 format"""
@@ -14,18 +27,24 @@ def convert_to_mp3(input_path):
     # Check if file is already MP3
     if input_path.lower().endswith('.mp3'):
         return input_path
-        
-    # Convert to MP3 using ffmpeg
-    subprocess.run([
-        "/usr/local/opt/ffmpeg/bin/ffmpeg",
-        "-i", input_path,
-        "-vn",  # No video
-        "-acodec", "libmp3lame",
-        "-ab", "192k",  # Bitrate
-        "-ar", "44100",  # Sample rate
-        output_path
-    ], check=True)
-    return output_path
+    
+    try:
+        ffmpeg_path = find_ffmpeg()
+        # Convert to MP3 using ffmpeg
+        subprocess.run([
+            ffmpeg_path,
+            "-i", input_path,
+            "-vn",  # No video
+            "-acodec", "libmp3lame",
+            "-ab", "192k",  # Bitrate
+            "-ar", "44100",  # Sample rate
+            output_path
+        ], check=True, capture_output=True, text=True)
+        return output_path
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Error converting file to MP3: {e.stderr}")
+    except Exception as e:
+        raise RuntimeError(f"Error during conversion: {str(e)}")
 
 def upload_to_assemblyai(file_path):
     with open(file_path, 'rb') as f:
