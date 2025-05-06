@@ -2,4 +2,5 @@ Flask==3.1.0
 assemblyai==0.40.2
 requests==2.32.3
 yt-dlp==2025.4.30
+Flask-Login==0.6.3
 
