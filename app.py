@@ -6,7 +6,8 @@ from pipeline import run_transcription
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Required for session management
+# Use environment variable for secret key with a fallback
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-key-please-change-in-production')
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
