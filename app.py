@@ -67,24 +67,21 @@ def transcribe():
     global status_message
     transcript_path = None
     try:
-        youtube_url = request.form.get('youtube_url')
         file = request.files.get('file')
+        if not file:
+            status_message = "❌ No file provided."
+            return "No file provided", 400
 
-        if youtube_url:
-            status_message = "🎧 Downloading from YouTube..."
-            transcript_path = run_transcription(youtube_url=youtube_url, status_callback=update_status)
-        elif file:
-            file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-            file.save(file_path)
-            status_message = "📁 File uploaded. Starting transcription..."
-            transcript_path = run_transcription(local_file=file_path, status_callback=update_status)
+        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(file_path)
+        transcript_path = run_transcription(local_file=file_path, status_callback=update_status)
 
         if transcript_path:
             status_message = "✅ Transcription complete."
             return send_file(transcript_path, as_attachment=True)
 
-        status_message = "❌ No valid input provided."
-        return "No valid input", 400
+        status_message = "❌ Transcription failed."
+        return "Transcription failed", 500
     except Exception as e:
         status_message = f"❌ Error: {str(e)}"
         return str(e), 500
