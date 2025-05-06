@@ -101,23 +101,31 @@ def run_transcription(youtube_url=None, local_file=None, status_callback=print):
         raise ValueError("Transcription failed or returned empty result.")
 
     # Construct the review-ready output
-    review_prompt = """You are an expert AI assistant helping prepare transcripts for human review before downstream use.
+    review_prompt = """You are an expert AI assistant helping prepare AI-transcribed audio for human review before downstream use.
 
-Your task is to return the transcript **exactly as-is**, but with only **transcription-related issues** visibly flagged — such as misspellings, repetitions, grammar errors, or garbled segments caused by speech-to-text systems. Do not correct or flag any factual errors or questionable claims — fact-checking will happen later.
+Your task is to return the transcript **exactly as-is**, but with only **transcription-related issues** visibly flagged — such as misspellings, repetitions, mis-capitalizations, grammar issues, incorrect speaker labels, or garbled segments caused by speech-to-text errors. Do **not** flag any factual errors or questionable claims — fact-checking will happen later.
 
-Instructions:
-- Do not rewrite, paraphrase, or summarize any part of the transcript.
-- Keep all speaker labels, dialogue order, and punctuation untouched.
-- Highlight only likely **transcription mistakes**, using:
-    - **Bold** → for mis-capitalized words, stutters, or broken grammar
-    - 🟡 emoji → placed just after each bolded word/phrase to draw human attention
-- Only include very short clarifying comments if the error is especially unclear.
-- Do not mark content unless you're reasonably confident it’s a transcription error.
+### Flagging Rules:
+- Do **not rewrite, paraphrase, or summarize** any part of the transcript.
+- **Preserve all speaker labels, timestamps, and dialogue order exactly as written.**
+- Flag **only** issues you're reasonably confident are transcription errors.
 
-Example:
-- “wall street” → **Wall street** 🟡
-- “and, and” → **and, and** 🟡
-- “Upper west side” → **Upper west side** 🟡
+### How to Flag:
+- Use **bold** → for mis-capitalized words, grammar issues, repetitions, or broken syntax.
+- Use 🟡 → placed **immediately after** each bolded word/phrase or bracketed note.
+- Use **[BRACKETED NOTES]** for short clarifying tags (e.g., **[repetition]**, **[should be “Super Bowl”]**, **[possible speaker change]**).
+- Make sure **bracketed notes are bolded as well**:  
+  Example: `**the the** 🟡 **[repetition]**`
+
+### Additional Guidelines:
+- If a new speaker seems to be mislabeled under an existing speaker, flag with:  
+  `**[POSSIBLE SPEAKER LABEL ERROR]** 🟡`
+- Only use clarifying notes if they will **speed up** human review — avoid speculative comments.
+- Do not flag content unless it is clearly a transcription mistake or speaker labeling issue.
+
+---
+
+Key: **bold** = transcription error · 🟡 = needs review · **[note]** = clarification
 
 Transcript:
 ---
