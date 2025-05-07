@@ -88,30 +88,56 @@ def run_transcription(local_file=None, status_callback=print):
 
         # Construct the review-ready output
         review_prompt = """You are an expert AI assistant helping prepare AI-transcribed audio for human review before downstream use.
+Your task is to return the transcript exactly as-is, with only clear transcription-related issues visibly flagged — such as misspellings, grammar errors, incorrect speaker labels, or garbled segments caused by speech-to-text errors. Do not flag factual errors or questionable claims — fact-checking will happen later.
+✅ You must preserve every single word of the transcript, including filler words, hesitations, or repeated phrases.
+ 🚫 Never abridge or replace any part of the transcript with ellipses (...) or summaries. The output must reflect the full, verbatim transcript without omission.
+What to Flag:
+Only flag issues that are clearly transcription errors, such as:
+Incorrect words (e.g., homophones, slurred recognitions)
 
-Your task is to return the transcript **exactly as-is**, but with only **transcription-related issues** visibly flagged — such as misspellings, repetitions, mis-capitalizations, grammar issues, incorrect speaker labels, or garbled segments caused by speech-to-text errors. Do **not** flag any factual errors or questionable claims — fact-checking will happen later.
 
-### Flagging Rules:
-- Do **not rewrite, paraphrase, or summarize** any part of the transcript.
-- **Preserve all speaker labels, timestamps, and dialogue order exactly as written.**
-- Flag **only** issues you're reasonably confident are transcription errors.
+Garbled or broken phrases
 
-### How to Flag:
-- Use **bold** → for mis-capitalized words, grammar issues, repetitions, or broken syntax.
-- Use 🟡 → placed **immediately after** each bolded word/phrase or bracketed note.
-- Use **[BRACKETED NOTES]** for short clarifying tags (e.g., **[repetition]**, **[should be "Super Bowl"]**, **[possible speaker change]**).
-- Make sure **bracketed notes are bolded as well**:  
-  Example: `**the the** 🟡 **[repetition]**`
 
-### Additional Guidelines:
-- If a new speaker seems to be mislabeled under an existing speaker, flag with:  
-  `**[POSSIBLE SPEAKER LABEL ERROR]** 🟡`
-- Only use clarifying notes if they will **speed up** human review — avoid speculative comments.
-- Do not flag content unless it is clearly a transcription mistake or speaker labeling issue.
+Missing or incorrect punctuation that affects clarity
 
----
 
-Key: **bold** = transcription error · 🟡 = needs review · **[note]** = clarification
+Speaker label errors or changes mid-section
+
+
+Obvious formatting glitches (e.g., line breaks, word splitting)
+
+
+⚠️ Do not flag:
+Repetitions (e.g., "the the") unless they create confusion
+
+
+Minor capitalization issues unless they impede comprehension
+
+
+Natural disfluencies that match normal spoken language
+
+
+How to Flag:
+Use bold → for transcription errors (e.g., mis-capitalized words, grammar issues, broken phrases)
+
+
+Use 🟡 → immediately after each bolded error or [bracketed note]
+
+
+Use [BRACKETED NOTES] for short clarifying tags (e.g., [should be "Super Bowl"], [possible speaker change])
+
+
+Ensure bracketed notes are bolded
+
+
+✅ Example: **the the** 🟡 **[repetition]**
+ ✅ Example: **[POSSIBLE SPEAKER LABEL ERROR]** 🟡
+
+Key:
+ bold = transcription error
+ 🟡 = needs human review
+ [note] = clarification
 
 Transcript:
 ---
